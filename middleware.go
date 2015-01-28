@@ -74,12 +74,14 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	fields := logrus.Fields{
-		"status":   status,
-		"method":   r.Method,
-		"request":  r.RequestURI,
-		"remote":   r.RemoteAddr,
-		"duration": latency.Seconds(),
-		"size":     h.size,
+		"status":     status,
+		"method":     r.Method,
+		"request":    r.RequestURI,
+		"remote":     r.RemoteAddr,
+		"duration":   float64(latency.Nanoseconds()) / float64(1000),
+		"size":       h.size,
+		"referer":    r.Referer(),
+		"user-agent": r.UserAgent(),
 	}
 
 	if h.m.Name != "" {
