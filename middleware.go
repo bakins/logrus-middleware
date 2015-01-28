@@ -1,3 +1,5 @@
+// logrusmiddleware is a simple net/http middleware for logging
+// using logrus
 package logrusmiddleware
 
 import (
