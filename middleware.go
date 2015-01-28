@@ -85,5 +85,9 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		fields["component"] = h.component
 	}
 
-	h.m.Logger.WithFields(fields).Info("completed handling request")
+	if l := h.m.Logger; l != nil {
+		l.WithFields(fields).Info("completed handling request")
+	} else {
+		logrus.WithFields(fields).Info("completed handling request")
+	}
 }
