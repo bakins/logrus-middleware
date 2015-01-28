@@ -8,6 +8,7 @@ before_install:
 
 install:
   - go get -d -v ./...
+  - go get github.com/bakins/test-helpers
 
 script:
   - $HOME/gopath/bin/golint ./...
