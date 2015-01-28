@@ -36,7 +36,7 @@ func (m *Middleware) Handler(h http.Handler, component string) *Handler {
 	}
 }
 
-// Write is a wrapper for the "real" Write
+// Write is a wrapper for the "real" ResponseWriter.Write
 func (h *Handler) Write(b []byte) (int, error) {
 	if h.status == 0 {
 		// The status will be StatusOK if WriteHeader has not been called yet
@@ -47,15 +47,18 @@ func (h *Handler) Write(b []byte) (int, error) {
 	return size, err
 }
 
+// WriteHeader is a wrapper around ResponseWriter.WriteHeader
 func (h *Handler) WriteHeader(s int) {
 	h.ResponseWriter.WriteHeader(s)
 	h.status = s
 }
 
+// Header is a wrapper around ResponseWriter.Header
 func (h *Handler) Header() http.Header {
 	return h.ResponseWriter.Header()
 }
 
+// ServeHTTP calls the "real" handler and logs using the logger
 func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
