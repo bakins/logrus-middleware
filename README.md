@@ -1,3 +1,5 @@
+[![GoDoc](https://godoc.org/github.com/bakins/logrus-middleware?status.svg)](https://godoc.org/github.com/bakins/logrus-middleware)
+
 # logrus-middleware
 Simple logging middleware for Go using logrus
 
