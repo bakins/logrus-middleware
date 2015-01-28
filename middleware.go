@@ -68,8 +68,13 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	latency := time.Since(start)
 
+	status := h.status
+	if status == 0 {
+		status = 200
+	}
+
 	fields := logrus.Fields{
-		"status":   h.status,
+		"status":   status,
 		"method":   r.Method,
 		"request":  r.RequestURI,
 		"remote":   r.RemoteAddr,
