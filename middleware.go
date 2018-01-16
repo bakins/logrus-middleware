@@ -13,7 +13,7 @@ type (
 	// Middleware is a middleware handler for HTTP logging
 	Middleware struct {
 		// Logger is the log.Logger instance used to log messages with the Logger middleware
-		Logger *logrus.Logger
+		Logger logrus.FieldLogger
 		// Name is the name of the application as recorded in latency metrics
 		Name string
 	}
