@@ -20,7 +20,7 @@ type (
 
 	// Handler is the actual middleware that handles logging
 	Handler struct {
-		http.ResponseWriter
+		rw        http.ResponseWriter
 		status    int
 		size      int
 		m         *Middleware
@@ -44,37 +44,33 @@ func (h *Handler) Write(b []byte) (int, error) {
 		// The status will be StatusOK if WriteHeader has not been called yet
 		h.status = http.StatusOK
 	}
-	size, err := h.ResponseWriter.Write(b)
+	size, err := h.rw.Write(b)
 	h.size += size
 	return size, err
 }
 
 // WriteHeader is a wrapper around ResponseWriter.WriteHeader
 func (h *Handler) WriteHeader(s int) {
-	h.ResponseWriter.WriteHeader(s)
+	h.rw.WriteHeader(s)
 	h.status = s
 }
 
 // Header is a wrapper around ResponseWriter.Header
 func (h *Handler) Header() http.Header {
-	return h.ResponseWriter.Header()
+	return h.rw.Header()
 }
 
 // ServeHTTP calls the "real" handler and logs using the logger
 func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
-	h.handler.ServeHTTP(rw, r)
+	h.rw = rw
+	h.handler.ServeHTTP(h, r)
 
 	latency := time.Since(start)
 
-	status := h.status
-	if status == 0 {
-		status = 200
-	}
-
 	fields := logrus.Fields{
-		"status":     status,
+		"status":     h.status,
 		"method":     r.Method,
 		"request":    r.RequestURI,
 		"remote":     r.RemoteAddr,
