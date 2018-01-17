@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sirupsen/logrus"
 	h "github.com/bakins/test-helpers"
+	"github.com/sirupsen/logrus"
 )
 
 func newRequest(method, url string) *http.Request {
