@@ -1,7 +1,7 @@
 language: go
 
 go:
-  - 1.4
+  - 1.7
 
 before_install:
   - go get github.com/golang/lint/golint
@@ -11,5 +11,6 @@ install:
   - go get github.com/bakins/test-helpers
 
 script:
-  - $HOME/gopath/bin/golint ./...
   - go test -v ./...
+  - go vet ./..
+  - $HOME/gopath/bin/golint ./...
