@@ -45,5 +45,5 @@ func TestHandler(t *testing.T) {
 
 	h.Assert(t, buf.Len() > 0, "buffer should not be empty")
 	h.Assert(t, strings.Contains(buf.String(), `"component":"homepage"`), "buffer did not match expected result")
-	h.Assert(t, lh.status == 200, "should have set status field in log to match response code")
+	h.Assert(t, lh.responseData.status == 200, "should have set status field in log to match response code")
 }
