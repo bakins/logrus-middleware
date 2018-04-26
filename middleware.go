@@ -75,6 +75,7 @@ func (h *Handler) Header() http.Header {
 func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
+	h = h.m.Handler(h.handler, h.component)
 	h.ResponseWriter = rw
 	h.responseData = h.newResponseData()
 	h.handler.ServeHTTP(h, r)

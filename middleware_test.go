@@ -2,6 +2,7 @@ package logrusmiddleware
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -45,5 +46,8 @@ func TestHandler(t *testing.T) {
 
 	h.Assert(t, buf.Len() > 0, "buffer should not be empty")
 	h.Assert(t, strings.Contains(buf.String(), `"component":"homepage"`), "buffer did not match expected result")
-	h.Assert(t, lh.responseData.status == 200, "should have set status field in log to match response code")
+	var lr interface{}
+	err := json.Unmarshal([]byte(buf.String()), &lr)
+	h.Assert(t, err == nil, "could not decode log record")
+	h.Assert(t, lr.(map[string]interface{})["status"].(float64) == 200, "should have status field set in log to match response code")
 }
