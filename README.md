@@ -3,6 +3,8 @@
 # logrus-middleware
 Simple logging middleware for Go using logrus
 
+**Note** This needs a new maintainer.  I no longer use this, so I'd be happy to transfer ownership if you find it useful.  Open an issue or contact me if you are interested.
+
 "Normal" net/http middleware for Go for logging.
 
 
