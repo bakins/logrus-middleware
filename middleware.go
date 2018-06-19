@@ -3,6 +3,9 @@
 package logrusmiddleware
 
 import (
+	"bufio"
+	"errors"
+	"net"
 	"net/http"
 	"time"
 
@@ -47,6 +50,15 @@ func (m *Middleware) Handler(h http.Handler, component string) *Handler {
 		handler:   h,
 		component: component,
 	}
+}
+
+// Hijack implements http.Hijacker. It simply wraps the underlying
+// ResponseWriter's Hijack method if there is one, or returns an error.
+func (h *Handler) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	if hj, ok := h.ResponseWriter.(http.Hijacker); ok {
+		return hj.Hijack()
+	}
+	return nil, nil, errors.New("Parent ResponseWriter is no Hijacker")
 }
 
 // Write is a wrapper for the "real" ResponseWriter.Write
